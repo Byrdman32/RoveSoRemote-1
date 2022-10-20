@@ -44,7 +44,7 @@ jobs:
         run: flutter build apk
       - name: Build iOS App
         run: |
-          flutter build ios --no-codesign --export-method ad-hoc
+          flutter build ipa --no-codesign --export-method ad-hoc
           cd build/ios/iphoneos
           mkdir Payload
           cd Payload
