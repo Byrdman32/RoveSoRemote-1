@@ -40,11 +40,9 @@ jobs:
           channel: "stable" # or: 'beta' or 'master'
       - run: flutter --version
       - run: flutter pub get
-      - name: Build Android App
-        run: flutter build apk
       - name: Build iOS App
         run: |
-          flutter build ipa --no-codesign --export-method ad-hoc
+          flutter build ipa --export-method ad-hoc
           cd build/ios/iphoneos
           mkdir Payload
           cd Payload
