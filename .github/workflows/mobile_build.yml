@@ -42,7 +42,7 @@ jobs:
       - run: flutter pub get
       - name: Build iOS App
         run: |
-          flutter build ipa --export-method ad-hoc
+          flutter build ipa
           cd build/ios/iphoneos
           mkdir Payload
           cd Payload
@@ -56,3 +56,29 @@ jobs:
           name: ${{ env.RELEASE_NAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: "./rove_so_remote/build/app/outputs/apk/release/*.apk,./rove_so_remote/build/ios/iphoneos/app.ipa"
+  ios_build:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ./rove_so_remote
+    steps:
+      # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - uses: sparkfabrik/ios-build-action@v2.0.0
+        with:
+          upload-to-testflight: false
+          increment-build-number: true
+          build-pods: false
+          configuration: Release
+          export-method: ad-hoc
+          workspace-path: 'ios/Runner.xcodeproj'
+          project-path: 'ios/Runner.xcworkspace'
+          scheme: MyScheme
+          output-path: RoveSoRemote.ipa
+          team-id: ${{ secrets.TEAM_ID }}
+          team-name: ${{ secrets.TEAM_NAME }}
+          match-git-url: ${{ secrets.MATCH_GIT_URL }}
+          match-build-type: 'ad-hoc'
+          browserstack-upload: false
