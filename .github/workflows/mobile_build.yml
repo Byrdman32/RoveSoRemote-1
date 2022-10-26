@@ -42,7 +42,7 @@ jobs:
       - run: flutter pub get
       - name: Build iOS App
         run: |
-          flutter build ipa
+          flutter build ipa --release --export-method=ad-hoc
           cd build/ios/iphoneos
           mkdir Payload
           cd Payload
@@ -66,19 +66,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         
-      - uses: sparkfabrik/ios-build-action@v2.0.0
+      - uses: yukiarrr/ios-build-action@v1.5.0
         with:
-          upload-to-testflight: false
-          increment-build-number: true
-          build-pods: false
-          configuration: Release
-          export-method: ad-hoc
-          workspace-path: 'ios/Runner.xcodeproj'
-          project-path: 'ios/Runner.xcworkspace'
-          scheme: MyScheme
-          output-path: RoveSoRemote.ipa
+          project-path: ./ios/Runner.xcodeproj
+          p12-base64: ${{ secrets.P12_BASE64 }}
+          mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+          code-signing-identity: ${{ secrets.TEAM_NAME }}
           team-id: ${{ secrets.TEAM_ID }}
-          team-name: ${{ secrets.TEAM_NAME }}
-          match-git-url: ${{ secrets.MATCH_GIT_URL }}
-          match-build-type: 'ad-hoc'
-          browserstack-upload: false
+          workspace-path: ./ios/Runner.xcworkspace
