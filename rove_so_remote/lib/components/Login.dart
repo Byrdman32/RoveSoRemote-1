@@ -11,6 +11,15 @@ class _LoginDemoState extends State<LoginDemo> {
 
   final myController = TextEditingController();
 
+  String textHolder = ' ';
+
+  changeText(String msg) {
+    setState(() {
+      textHolder = msg;
+    });
+
+  }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -34,9 +43,6 @@ class _LoginDemoState extends State<LoginDemo> {
                 child: Container(
                     width: 200,
                     height: 150,
-                    /*decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(50.0)),*/
                     child: Image.asset('assets/logo.png')),
               ),
             ),
@@ -44,7 +50,6 @@ class _LoginDemoState extends State<LoginDemo> {
             Padding(
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15, top: 50, bottom: 15),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 controller: myController,
                 obscureText: true,
@@ -54,6 +59,16 @@ class _LoginDemoState extends State<LoginDemo> {
                     hintText: 'Password is saved in #RoveSoDrive'),
               ),
             ),
+
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15, top: 5, bottom: 25),
+              child: Text(
+                '$textHolder',
+                style: TextStyle(fontSize: 18, color: Colors.red),
+              ),
+            ),
+
             Container(
               height: 50,
               width: 250,
@@ -62,8 +77,12 @@ class _LoginDemoState extends State<LoginDemo> {
               child: ElevatedButton(
                 onPressed: () {
                   if (myController.text == globals.pass) {
+                    changeText(' ');
                     Navigator.push(
                         context, MaterialPageRoute(builder: (_) => HomePage()));
+                  }
+                  else {
+                    changeText('Incorrect Password: Check #RoveSoDrive');
                   }
                 },
                 child: Text(
