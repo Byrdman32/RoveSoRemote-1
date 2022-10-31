@@ -25,6 +25,7 @@ class RoveSoRemoteApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'RoveSoRemote',
         theme: ThemeData(
           primarySwatch: Colors.red,
